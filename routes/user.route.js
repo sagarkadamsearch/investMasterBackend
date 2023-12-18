@@ -44,7 +44,7 @@ userRoute.post("/login", async(req, res)=>{
                         httpOnly: true,
                         secure: true,
                     });
-                    res.status(200).send({"Msg":"Login Successfully"})
+                    res.status(200).send({"Msg":"Login Successfully","token":token})
                 }else{
                     res.status(200).send(err)
                 }
