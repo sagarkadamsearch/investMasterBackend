@@ -7,8 +7,13 @@ const {processAndResizeImage} = require('../functions/imageProcess');
 const userRoute = express.Router()
 
 
-userRoute.get('/',(req,res)=>{
-    res.send("Hello");
+userRoute.get('/',async(req,res)=>{
+    try {
+        const users = await userModel.find();
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(400).send({"Error":error});
+    }
 })
 
 userRoute.post("/register", async(req, res)=>{
