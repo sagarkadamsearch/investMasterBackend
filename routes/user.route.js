@@ -13,7 +13,7 @@ userRoute.get('/',async(req,res)=>{
     try {
         let users=[];
     
-        if(active=="true" && deactive="true" && ageGreaterThan18="true"){
+        if(active=="true" && deactive=="true" && ageGreaterThan18=="true"){
             users = await userModel.find({
                 $and: [
                   { status: { $in: ['active', 'deactive'] } },
@@ -21,16 +21,16 @@ userRoute.get('/',async(req,res)=>{
                 ],
               });
         }
-        else if(active="true" && deactive="true"){
+        else if(active=="true" && deactive=="true"){
             users = await userModel.find({ status: { $in: ['active', 'deactive'] } });
         }  
-        else if(active="true" && ageGreaterThan18="true"){
+        else if(active=="true" && ageGreaterThan18=="true"){
             users = await userModel.find( {$and: [
                   { status:'active'},
                   { age: { $gt: 18 } },
                 ]});
         }    
-         else if(active="true"){
+         else if(active=="true"){
             users = await userModel.find({status:'active'});
         }    
         else{
