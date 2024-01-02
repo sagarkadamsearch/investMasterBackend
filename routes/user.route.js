@@ -11,7 +11,7 @@ userRoute.get('/',async(req,res)=>{
     const {active,deactive,ageGreaterThan18} = req.query;
    console.log('active',active,'deactive',deactive,ageGreaterThan18)
     try {
-        const users;
+        const users=[];
         
         if(active && !deactive && !ageGreaterThan18){
             users = await userModel.find({status:'active'});
