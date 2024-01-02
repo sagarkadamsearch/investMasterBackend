@@ -11,15 +11,9 @@ userRoute.get('/',async(req,res)=>{
     const {active,deactive,ageGreaterThan18} = req.query;
    console.log('active',active,'deactive',deactive,ageGreaterThan18)
     try {
-        const users=[];
-        
-        if(active && !deactive && !ageGreaterThan18){
-            users = await userModel.find({status:'active'});
-        }
-        else if(active && deactive && !ageGreaterThan18){
-            users = await userModel.find({ status: { $in: ['active', 'deactive'] } });
-        }
-        else if(active && deactive && ageGreaterThan18){
+        let users=[];
+    
+        if(active && deactive && ageGreaterThan18){
             users = await userModel.find({
                 $and: [
                   { status: { $in: ['active', 'deactive'] } },
@@ -27,6 +21,18 @@ userRoute.get('/',async(req,res)=>{
                 ],
               });
         }
+        else if(active && deactive){
+            users = await userModel.find({ status: { $in: ['active', 'deactive'] } });
+        }  
+        else if(active && ageGreaterThan18){
+            users = await userModel.find( {$and: [
+                  { status:'active'},
+                  { age: { $gt: 18 } },
+                ]});
+        }    
+         else if(active){
+            users = await userModel.find({status:'active'});
+        }    
         else{
         users = await userModel.find();
         }
