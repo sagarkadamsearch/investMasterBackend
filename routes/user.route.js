@@ -35,8 +35,8 @@ userRoute.get('/',async(req,res)=>{
              // Use a regular expression to perform a case-insensitive search on name or surname
               const searchRegex = new RegExp(search, 'i');
               query.$or = [
-                { name: searchRegex },
-                { surname: searchRegex },
+                { fname: searchRegex },
+                { lname: searchRegex },
               ]; 
             }
         
