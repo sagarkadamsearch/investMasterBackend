@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { userModel } = require("../models/user.model");
 const {processAndResizeImage} = require('../functions/imageProcess');
-const { default: Search } = require("../../front_end/src/components/Dashboard/Search/search");
 const userRoute = express.Router()
 
 
