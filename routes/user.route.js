@@ -9,28 +9,30 @@ const userRoute = express.Router()
 
 userRoute.get('/',async(req,res)=>{
     const {active,deactive,ageGreaterThan18} = req.query;
-
-    try {
-        const users=null;
+   console.log(active==true);
+        try {
+            let query = {};
         
-        if(active && !deactive && !ageGreaterThan18){
-            users = await userModel.find({status:'active'});
-        }
-        else if(active && deactive && !ageGreaterThan18){
-            users = await userModel.find({ status: { $in: ['active', 'deactive'] } });
-        }
-        else if(active && deactive && ageGreaterThan18){
-            users = await userModel.find({
-                $and: [
-                  { status: { $in: ['active', 'deactive'] } },
-                  { age: { $gt: 18 } },
-                ],
-              });
-        }
-        else{
-        users = await userModel.find();
-        }
-        res.status(200).json(users);
+            if (active=='true') {
+              query.status = 'active';
+            }
+        
+            if (deactive=='true') {
+              // If 'deactive' is already in the query, use $in to allow multiple values
+              if (query.status) {
+                query.status.$in = ['active', 'deactive'];
+              } else {
+                query.status = 'deactive';
+              }
+            }
+        
+            if (ageGreaterThan18=='true') {
+              query.age = { $gt: 18 };
+            }
+        
+            let users = await userModel.find(query);
+            res.status(200).json(users);
+        
     } catch (error) {
         res.status(400).send({"Error":error});
     }
