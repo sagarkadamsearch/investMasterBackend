@@ -20,7 +20,7 @@ userRoute.get('/',async(req,res)=>{
             if (deactive=='true') {
               // If 'deactive' is already in the query, use $in to allow multiple values
               if (query.status) {
-                query.status.$in = ['active', 'deactive'];
+                query.status = { $in: ['active', 'deactive'] };
               } else {
                 query.status = 'deactive';
               }
