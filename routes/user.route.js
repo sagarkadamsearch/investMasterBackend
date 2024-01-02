@@ -22,7 +22,7 @@ userRoute.get('/',async(req,res)=>{
               });
         }
         else if(active=="true" && deactive=="true"){
-            users = await userModel.find({ status: { $in: ['active', 'deactive'] } });
+            users = await userModel.find({ status: { $or: ['active', 'deactive'] } });
         }  
         else if(active=="true" && ageGreaterThan18=="true"){
             users = await userModel.find( {$and: [
