@@ -9,7 +9,7 @@ const userRoute = express.Router()
 
 userRoute.get('/',async(req,res)=>{
     const {active,deactive,ageGreaterThan18} = req.query;
-   console.log('active',active,'deactive',deactive,ageGreaterThan18)
+   console.log(active==true);
     try {
         let users=[];
     
