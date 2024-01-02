@@ -4,11 +4,12 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { userModel } = require("../models/user.model");
 const {processAndResizeImage} = require('../functions/imageProcess');
+const { default: Search } = require("../../front_end/src/components/Dashboard/Search/search");
 const userRoute = express.Router()
 
 
 userRoute.get('/',async(req,res)=>{
-    const {active,deactive,ageGreaterThan18} = req.query;
+    const {active,deactive,ageGreaterThan18,search} = req.query;
    console.log(active==true);
         try {
             let query = {};
@@ -20,7 +21,7 @@ userRoute.get('/',async(req,res)=>{
             if (deactive=='true') {
               // If 'deactive' is already in the query, use $in to allow multiple values
               if (query.status) {
-                query.status.$in = ['active', 'deactive'];
+                query.status = { $in: ['active', 'deactive'] };
               } else {
                 query.status = 'deactive';
               }
@@ -28,6 +29,15 @@ userRoute.get('/',async(req,res)=>{
         
             if (ageGreaterThan18=='true') {
               query.age = { $gt: 18 };
+            }
+
+            if(search){
+             // Use a regular expression to perform a case-insensitive search on name or surname
+              const searchRegex = new RegExp(search, 'i');
+              query.$or = [
+                { name: searchRegex },
+                { surname: searchRegex },
+              ]; 
             }
         
             let users = await userModel.find(query);
